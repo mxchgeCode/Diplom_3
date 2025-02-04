@@ -7,10 +7,11 @@ from selenium.webdriver.common.action_chains import ActionChains
 class BasePage:
     def __init__(self, driver):
         self.driver = driver
+        self.time = 10
 
     @allure.step('Подождать загрузку элемента')
     def find_element_with_wait(self, locator):
-        return (WebDriverWait(self.driver, 30).
+        return (WebDriverWait(self.driver, self.time).
                 until(expected_conditions.visibility_of_element_located(locator)))
 
     @allure.step('Кликнуть на элемент')
@@ -25,11 +26,11 @@ class BasePage:
 
     @allure.step('Проверить ,что элемент кликабелен')
     def check_element_is_clickable(self, locator):
-        return WebDriverWait(self.driver, 15).until(expected_conditions.element_to_be_clickable(locator))
+        return WebDriverWait(self.driver, self.time).until(expected_conditions.element_to_be_clickable(locator))
 
     @allure.step('Подождать закрытие элемента')
     def wait_closing_element(self, locator):
-        WebDriverWait(self.driver, 15).until_not(expected_conditions.visibility_of_element_located(locator))
+        WebDriverWait(self.driver, self.time).until_not(expected_conditions.visibility_of_element_located(locator))
 
     @allure.step('Добавить текст в элемент')
     def add_text_to_element(self, locator, text):
@@ -54,13 +55,13 @@ class BasePage:
 
     @allure.step('Подождать смену текста на элементе')
     def wait_for_element_to_change_text(self, locator, value):
-        return WebDriverWait(self.driver, 10).until_not(expected_conditions.
-                                                        text_to_be_present_in_element(locator, value))
+        return WebDriverWait(self.driver, self.time).until_not(expected_conditions.
+                                                               text_to_be_present_in_element(locator, value))
 
     def click_on_element_js(self, locator):
         self.driver.execute_script("arguments[0].click();", locator)
 
     def find_element_with_wait_overlay(self, locator):
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, self.time).until(
             expected_conditions.visibility_of_element_located(locator))
         return self.driver.find_element(*locator)

@@ -63,6 +63,9 @@ class TestOrderFeedPage:
         account_page.click_login_button()
         home_page.go_feed_page()
         orders_cnt_1 = feed_page.get_cnt_orders_today()
+
+        home_page.click_constructor_button()
+
         home_page.drag_and_drop_ingredient_to_basket()
         home_page.wait_visible_checkout_button()
         home_page.click_checkout_button()
@@ -87,4 +90,3 @@ class TestOrderFeedPage:
         home_page.close_order_window()
         home_page.go_feed_page()
         assert feed_page.get_number_from_order_in_work() == f'0{new_order_id}'
-
