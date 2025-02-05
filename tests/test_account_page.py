@@ -1,3 +1,4 @@
+import pytest
 from pages.account_page import AccountPage
 from pages.home_page import HomePage
 import allure
@@ -5,10 +6,11 @@ import allure
 
 class TestAccountPage:
     @allure.title("Проверка переход по клику на «Личный кабинет»")
-    def test_go_to_account_page(self, driver, create_and_delete_user):
+    @pytest.mark.parametrize("browser", ["chrome", "firefox"], indirect=True)
+    def test_go_to_account_page(self, browser, create_and_delete_user):
         email, password = create_and_delete_user
-        account_page = AccountPage(driver)
-        home_page = HomePage(driver)
+        account_page = AccountPage(browser)
+        home_page = HomePage(browser)
         home_page.click_button_log_in_account()
         account_page.send_email_password(email, password)
         account_page.click_login_button()
@@ -17,10 +19,11 @@ class TestAccountPage:
         assert account_page.check_exit_button()
 
     @allure.title("Проверка выход из аккаунта")
-    def test_exit_from_account_page(self, driver, create_and_delete_user):
+    @pytest.mark.parametrize("browser", ["chrome", "firefox"], indirect=True)
+    def test_exit_from_account_page(self, browser, create_and_delete_user):
         email, password = create_and_delete_user
-        account_page = AccountPage(driver)
-        home_page = HomePage(driver)
+        account_page = AccountPage(browser)
+        home_page = HomePage(browser)
         home_page.click_button_log_in_account()
         account_page.send_email_password(email, password)
         account_page.click_login_button()
@@ -32,10 +35,11 @@ class TestAccountPage:
         assert account_page.check_displaying_of_login_button()
 
     @allure.title("Проверка переход в раздел «История заказов»")
-    def test_go_to_history_orders(self, driver, create_and_delete_user):
+    @pytest.mark.parametrize("browser", ["chrome", "firefox"], indirect=True)
+    def test_go_to_history_orders(self, browser, create_and_delete_user):
         email, password = create_and_delete_user
-        account_page = AccountPage(driver)
-        home_page = HomePage(driver)
+        account_page = AccountPage(browser)
+        home_page = HomePage(browser)
         home_page.click_button_log_in_account()
         account_page.send_email_password(email, password)
         account_page.click_login_button()

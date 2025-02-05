@@ -22,7 +22,7 @@ class BasePage:
 
     @allure.step('Перетащить элемент')
     def drag_and_drop_element(self, from_element, to_element):
-        ActionChains(self.driver).drag_and_drop(from_element, to_element).pause(4).perform()
+        ActionChains(self.driver).drag_and_drop(from_element, to_element).pause(5).perform()
 
     @allure.step('Проверить ,что элемент кликабелен')
     def check_element_is_clickable(self, locator):

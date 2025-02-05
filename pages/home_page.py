@@ -1,3 +1,6 @@
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.by import By
+
 from data import URLs
 from pages.base_page import BasePage
 from locators.home_page_locators import HomePageLocators
@@ -59,10 +62,18 @@ class HomePage(BasePage):
         return not self.check_displaying_of_element(HomePageLocators.DETAILS_OF_INGREDIENT)
 
     @allure.step('Перетащить ингредиент в конструктор бургера в корзине')
-    def drag_and_drop_ingredient_to_basket(self):
-        from_element = self.find_element_with_wait(HomePageLocators.INGREDIENT_FROM_CONSTRUCTOR)
-        to_element = self.find_element_with_wait(HomePageLocators.BURGER_CONSTRUCTOR_BASKET)
-        self.drag_and_drop_element(from_element, to_element)
+    def drag_and_drop_ingredient_to_basket(self, browser):
+        source = self.find_element_with_wait(HomePageLocators.INGREDIENT_FROM_CONSTRUCTOR)
+        target = self.find_element_with_wait(HomePageLocators.BURGER_CONSTRUCTOR_BASKET)
+        browser.execute_script(
+            "function createEvent(type) { var event = document.createEvent('CustomEvent'); "
+            "event.initCustomEvent(type, true, true, null); return event; } function dispatchEvent(element,"
+            " event, transferData) { if (element.dispatchEvent) { element.dispatchEvent(event); } else "
+            "if (element.fireEvent) { element.fireEvent('on' + event.type, event); } } var source = arguments[0];"
+            " var target = arguments[1]; var dragStartEvent = createEvent('dragstart'); dispatchEvent(source,"
+            " dragStartEvent); var dropEvent = createEvent('drop'); dispatchEvent(target, dropEvent); var "
+            "dragEndEvent = createEvent('dragend'); dispatchEvent(source, dragEndEvent);",
+            source, target)
 
     @allure.step('Получаем каунтер добавленных ингредиентов')
     def get_counter_of_ingredients_in_basket(self):

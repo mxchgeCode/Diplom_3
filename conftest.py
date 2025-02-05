@@ -4,12 +4,16 @@ from utils.helper import *
 from selenium import webdriver
 
 
-@pytest.fixture(params=["chrome", "firefox"])
-def driver(request):
-    if request.param == 'chrome':
+@pytest.fixture(scope="function")
+def browser(request):
+    browser_name = request.param
+    if browser_name == "chrome":
         driver = webdriver.Chrome()
-    else:
+    elif browser_name == "firefox":
         driver = webdriver.Firefox()
+    else:
+        raise ValueError(f"Unsupported browser: {browser_name}")
+
     driver.maximize_window()
     driver.get(URLs.BASE_URL)
     yield driver

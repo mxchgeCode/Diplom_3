@@ -1,13 +1,11 @@
 import requests
 from data import URLs
-from faker import Faker
 
 
 def create_random_creds():
-    fake = Faker()
-    email = fake.email()
-    password = fake.password()
-    name = fake.name()
+    email = 'jessica@example.org'
+    password = 'jessicaexample'
+    name = 'jessica'
     reg_data = {
         "email": email,
         "password": password,
